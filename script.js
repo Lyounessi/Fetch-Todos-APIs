@@ -55,15 +55,25 @@ fetch(`${apiUrl}/${id}`, {
     },
     body: JSON.stringify({ completed })
 })
-.then(response => response.json())
-.then(data => console.log(data));    
+
+}
+
+const deleteTodo = (e) => {
+    if (e.target.classList.contains('todo')) {
+        const id = e.target.dataset.id;
+        fetch(`${apiUrl}/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => JSON.stringify(response))
+        .then(() => e.target.remove());
+    }
 }
 
 const init = () => {
     document.addEventListener('DOMContentLoaded', getTodos);
     document.querySelector('#todo-form').addEventListener('submit', createTodo);
     document.querySelector('#todo-list').addEventListener('click', toggleCompleted);
+    document.querySelector('#todo-list').addEventListener('dblclick', deleteTodo);
+
 }
-
-
 init();
